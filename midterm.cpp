@@ -42,7 +42,7 @@ class banksystem : public bank{
 
 int main(){
     banksystem myBank;
-    cout << "=================================" << endl;
+    cout << "=================Invoice================" << endl;
     myBank.deposit(1000);
     cout << "" << endl;
     myBank.deposit(500);
@@ -52,7 +52,7 @@ int main(){
     myBank.showBalance();
     cout << "" << endl;
     myBank.showTransactionHistory();
-    cout << "=================================" << endl;
+    cout << "========================================" << endl;
     return 0;
 }
 
