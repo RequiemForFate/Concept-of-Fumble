@@ -6,20 +6,14 @@ class bank{
     private:
     double balance;
     protected:
-    int transaction_history;
+    int transactionCount = 0;
     public:
-    bank(){
-        balance = 0.0;
-        transaction_history = 0;
-    }
-    double amount(){
-        return balance;
-    }
+
     void deposit(double amount){
         cout << "Enter deposit amount: ";
         cin >> amount;
         balance += amount;
-        transaction_history++;
+        transactionCount++;
         cout << "Deposit successful." << endl;
 
     }
@@ -28,7 +22,7 @@ class bank{
         cin >> amount;
         if(amount <= balance){
             balance -= amount;
-            transaction_history++;
+            transactionCount++;
             cout << "Withdrawal successful." << endl;
         } else {
             cout << "Insufficient funds." << endl;
@@ -42,22 +36,22 @@ class bank{
 class banksystem : public bank{
     public:
     void showTransactionHistory(){
-        cout << "Total Transactions: " << transaction_history << endl;
+        cout << "Total Transactions: " << transactionCount << endl;
     }
 };
 
 int main(){
-    banksystem myBank1;
+    banksystem myBank;
     cout << "=================================" << endl;
-    myBank1.deposit(1000);
+    myBank.deposit(1000);
     cout << "" << endl;
-    myBank1.deposit(500);
+    myBank.deposit(500);
     cout << "" << endl;
-    myBank1.withdraw(300);
+    myBank.withdraw(300);
     cout << "" << endl;
-    myBank1.showBalance();
+    myBank.showBalance();
     cout << "" << endl;
-    myBank1.showTransactionHistory();
+    myBank.showTransactionHistory();
     cout << "=================================" << endl;
     return 0;
 }
