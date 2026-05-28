@@ -49,20 +49,43 @@ void showBookingDetails(){
 
 int main(){
     booking myBooking;
-    cout << "=================Hotel Booking System================" << endl;
-    myBooking.bookRoom();
-    cout << "" << endl;
-    myBooking.displayBooking();
-    cout << "" << endl;
-    int nights;
-    cout << "Enter number of nights: ";
-    cin >> nights;
-    myBooking.calculateTotalPrice(nights);
-    cout << "" << endl;
-    myBooking.cancelBooking();
-    cout << "" << endl;
-    myBooking.displayBooking();
-    cout << "===================================================" << endl;
+
+    int choice;
+    do {
+        cout << "1. Book Room" << endl;
+        cout << "2. Cancel Booking" << endl;
+        cout << "3. Display Booking" << endl;
+        cout << "4. Calculate Total Price" << endl;
+        cout << "5. Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+        cin.ignore(); // To ignore the newline character after entering choice
+
+        switch(choice) {
+            case 1:
+                myBooking.bookRoom();
+                break;
+            case 2:
+                myBooking.cancelBooking();
+                break;
+            case 3:
+                myBooking.displayBooking();
+                break;
+            case 4:
+                int nights;
+                cout << "Enter number of nights: ";
+                cin >> nights;
+                myBooking.calculateTotalPrice(nights);
+                break;
+            case 5:
+                cout << "Exiting..." << endl;
+                break;
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+        }
+        cout << "" << endl; // Add a blank line for better readability
+    } while(choice != 5);
+
     return 0;
 
 
