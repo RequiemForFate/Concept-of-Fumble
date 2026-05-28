@@ -43,11 +43,11 @@ class banksystem : public bank{
 int main(){
     banksystem myBank;
     cout << "=================Invoice================" << endl;
-    myBank.deposit(1000);
+    myBank.deposit(0);
     cout << "" << endl;
-    myBank.deposit(500);
+    myBank.deposit(0);
     cout << "" << endl;
-    myBank.withdraw(300);
+    myBank.withdraw(0);
     cout << "" << endl;
     myBank.showBalance();
     cout << "" << endl;
