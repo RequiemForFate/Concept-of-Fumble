@@ -4,47 +4,64 @@ using namespace std;
 
 class booking {
 private: 
-string name;
-int roomNumber;
-double price;
+    string name;
+    int roomNumber;
+    double price;
+    int nights;
 public: 
-void bookRoom(){
-    cout << "Enter customer name: ";
-    getline(cin, name);
-    cout << "Enter room number: ";
-    cin >> roomNumber;
-    cout << "Enter room price: ";
-    cin >> price;
-}
+    booking() : roomNumber(0), price(0.0), nights(0) {}
 
-void cancelBooking(){
-    name = "";
-    roomNumber = 0;
-    price = 0.0;
-    cout << "Booking cancelled." << endl;
-}
-
-void displayBooking(){
-    if(name.empty()){
-        cout << "No booking found." << endl;
-    } else {
-        cout << "Customer Name: " << name << endl;
-        cout << "Room Number: " << roomNumber << endl;
-        cout << "Room Price: $" << price << endl;
+    void bookRoom(){
+        cout << "================ INFO ==================" << endl;
+        cout << "Enter customer name: ";
+        getline(cin, name);
+        cout << "Enter room number: ";
+        cin >> roomNumber;
+        cout << "Enter room price: ";
+        cin >> price;
+        cout << "Enter number of nights: ";
+        cin >> nights;
+        if (nights < 0) {
+            nights = 0;
+        }
+        cout << "=======================================" << endl;
     }
-}
 
-void calculateTotalPrice(int nights){
-    double totalPrice = price * nights;
-    cout << "Total Price for " << nights << " nights: $" << totalPrice << endl;
-}
+    bool cancelBooking(int roomToCancel){
+        if(name.empty()){
+            cout << "No booking found to cancel." << endl;
+            return false;
+        }
+        if(roomToCancel != roomNumber){
+            cout << "Room number does not match current booking." << endl;
+            cout << "Current booked room is " << roomNumber << "." << endl;
+            return false;
+        }
+        name = "";
+        roomNumber = 0;
+        price = 0.0;
+        nights = 0;
+        cout << "Booking for room " << roomToCancel << " cancelled." << endl;
+        return true;
+    }
 
-void showBookingDetails(){
-    cout << "Customer Name: " << name << endl;
-    cout << "Room Number: " << roomNumber << endl;
-    cout << "Room Price: $" << price << endl;
+    double calculateTotalPrice() const {
+        return price * nights;
+    }
 
-}
+    void displayBooking(){
+        cout << "================ RECEIPT ==================" << endl;
+        if(name.empty()){
+            cout << "No booking found." << endl;
+        } else {
+            cout << "Customer Name: " << name << endl;
+            cout << "Room Number: " << roomNumber << endl;
+            cout << "Room Price per Night: $" << price << endl;
+            cout << "Nights Stayed: " << nights << endl;
+            cout << "Total Price: $" << calculateTotalPrice() << endl;
+        }
+        cout << "===========================================" << endl;
+    }
 };
 
 int main(){
@@ -52,30 +69,34 @@ int main(){
 
     int choice;
     do {
+        cout << "====== HOTEL BOOKING SYSTEM ======" << endl;
         cout << "1. Book Room" << endl;
         cout << "2. Cancel Booking" << endl;
         cout << "3. Display Booking" << endl;
         cout << "4. Calculate Total Price" << endl;
         cout << "5. Exit" << endl;
+        cout << "==================================" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
-        cin.ignore(); // To ignore the newline character after entering choice
+        cin.ignore();
 
         switch(choice) {
             case 1:
                 myBooking.bookRoom();
                 break;
-            case 2:
-                myBooking.cancelBooking();
+            case 2: {
+                int roomToCancel;
+                cout << "Enter room number to cancel: ";
+                cin >> roomToCancel;
+                myBooking.cancelBooking(roomToCancel);
                 break;
+            }
             case 3:
                 myBooking.displayBooking();
                 break;
             case 4:
-                int nights;
-                cout << "Enter number of nights: ";
-                cin >> nights;
-                myBooking.calculateTotalPrice(nights);
+                cout << "Displaying total price for current booking:" << endl;
+                cout << "Total Price: $" << myBooking.calculateTotalPrice() << endl;
                 break;
             case 5:
                 cout << "Exiting..." << endl;
@@ -83,8 +104,10 @@ int main(){
             default:
                 cout << "Invalid choice. Please try again." << endl;
         }
-        cout << "" << endl; // Add a blank line for better readability
+        cout << "" << endl;
     } while(choice != 5);
+
+
 
     return 0;
 
