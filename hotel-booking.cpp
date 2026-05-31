@@ -1,5 +1,9 @@
 #include <iostream>
 #include <string>
+#include <iomanip>
+#include <vector>
+#include <algorithm>
+#include <limits>
 using namespace std;
 
 class booking {
@@ -62,6 +66,18 @@ public:
         }
         cout << "===========================================" << endl;
     }
+};
+
+class receipt: public booking{
+    public:
+    void displayReceipt(){
+    
+    }
+
+
+
+
+
 };
 
 int main(){
