@@ -1,9 +1,6 @@
 #include <iostream>
 #include <string>
-#include <iomanip>
-#include <vector>
-#include <algorithm>
-#include <limits>
+
 using namespace std;
 
 class booking {
@@ -12,7 +9,8 @@ private:
     int roomNumber;
     double price;
     int nights;
-public: 
+public:
+
     booking() : roomNumber(0), price(0.0), nights(0) {}
 
     void bookRoom(){
@@ -70,10 +68,7 @@ public:
 
 class receipt: public booking{
     public:
-    void displayReceipt(){
     
-    }
-
 
 
 
