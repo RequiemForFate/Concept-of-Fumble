@@ -1,0 +1,134 @@
+/* Layout and speech bubble styling for timer character */
+
+.timer-card {
+    width: 67%;
+    border-radius: 20px !important;
+}
+
+.character-box {
+    position: relative;
+    width: 100%;
+    min-height: 310px;
+    overflow: visible;
+    padding: 1.5rem;
+    background: rgba(13, 110, 253, 0.05);
+    border: 1px solid rgba(13, 110, 253, 0.15);
+    border-radius: 1rem;
+}
+
+.character-box img {
+    position: relative;
+    z-index: 0;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    transform: scale(1.05);
+}
+
+#musicCollapse .character-box img,
+.music-controls-box img,
+.music-box img {
+    max-width: 80%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    transform: scale(0.95);
+}
+
+.pointer-cursor {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+
+/* Quick scale down on active tap to give tactile feedback */
+
+.pointer-cursor:active {
+    transform: scale(0.9);
+}
+
+
+/* Custom Speech Bubble styling positioned over the sprite */
+
+#speech-bubble {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.96);
+    color: #0d1f3f;
+    padding: 10px 16px;
+    border: 2px solid rgba(13, 110, 253, 0.8);
+    border-radius: 18px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.3;
+    white-space: nowrap;
+    box-shadow: 0 10px 24px rgba(13, 110, 253, 0.18);
+    z-index: 10;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+#speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -7px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 8px 8px 0;
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.96) transparent;
+}
+
+@media (max-width: 767.98px) {
+    .col-md-4,
+    .col-md-5,
+    .col-md-7,
+    .col-md-8 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    #speech-bubble {
+        position: static;
+        width: auto;
+        margin-bottom: 1rem;
+    }
+}
+
+.music-controls-box {
+    background: rgba(13, 110, 253, 0.05);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(13, 110, 253, 0.15);
+    width: 100%;
+    box-shadow: none;
+}
+
+.music-panel-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #0d6efd;
+}
+
+.music-box {
+    position: relative;
+    width: 100%;
+    min-height: 100px;
+    overflow: hidden;
+    padding: 1.5rem;
+    background: rgba(13, 110, 253, 0.05);
+    border: 1px solid rgba(13, 110, 253, 0.15);
+    border-radius: 1rem;
+}
+
+
+/* Make collapsed music-box image smaller than its outline */
+
+.music-box img,
+#collapse-character-img {
+    max-width: 70%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    transform: scale(0.95);
+}

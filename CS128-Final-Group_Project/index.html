@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Companion Study Timer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-light d-flex align-items-center justify-content-center min-vh-100 m-0">
+
+    <div class="card shadow timer-card p-4" style="max-width: 900px; width: 100%;">
+        <!-- Main Body Grid Wrapper -->
+        <div class="row g-3 align-items-start">
+
+            <!-- UPPER LEFT: Character -->
+            <div class="col-md-5">
+                <div class="character-box position-relative mb-4 d-flex align-items-center justify-content-center">
+                    <div id="speech-bubble">Let's start.</div>
+                    <img id="character-img" src="https://i.postimg.cc/R0q2cPW0/image-2026-06-15-232616654.png" alt="companion" class="img-fluid pointer-cursor">
+                </div>
+            </div>
+
+            <!-- UPPER RIGHT: Timer Controls & Progress Metrics -->
+            <div class="col-md-7">
+                <!-- Level UP XP -->
+                <div class="stats-display bg-body-tertiary border rounded p-2 mb-3">
+                    <span id="level-badge" class="fw-bold d-block mb-1 text-danger">XP: 1</span>
+                    <div class="progress mb-1" role="progressbar" aria-label="Progress Level" aria-valuemin="0" aria-valuemax="100" style="height: 10px;">
+                        <div id="xp-bar-fill" class="progress-bar bg-gradient bg-danger" style="width: 0%; transition: width 0.4s ease;"></div>
+                    </div>
+                    <div id="total-points-text" class="small text-muted" style="font-size: 11px;">0 XP / 10 XP</div>
+                </div>
+
+                <!-- Achievement Panel -->
+                <div id="achivement-box" class="alert alert-warning py-2 mb-3 fw-bold small text-start" role="alert"></div>
+                <h2 id="status-label" class="text-secondary h5 mb-3">It is time to STUDY!!!!</h2>
+
+                <div id="time-display" class="display-3 fw-bold text-dark mb-3" style="font-variant-numeric: tabular-nums;">30:00</div>
+
+                <!-- Timer Action Actions -->
+                <form class="form-container mb-3" onsubmit="event.preventDefault();">
+                    <div class="btn-group">
+                        <button class="btn btn-outline-primary" id="start-btn" onclick="startTimer()">Start Timer</button>
+                        <button class="btn btn-outline-secondary" id="pause-btn" onclick="pauseTimer()">Pause Timer</button>
+                        <button class="btn btn-outline-danger" id="stop-btn">Stop Timer</button>
+                    </div>
+                </form>
+
+                <!-- Trigger Toggle Button -->
+                <div class="pt-2">
+                    <button id="toggle-music-btn" class="btn btn-light btn-sm rounded-pill fw-semibold text-secondary px-3" type="button" data-bs-toggle="collapse" data-bs-target="#musicCollapse" aria-expanded="false" aria-controls="musicCollapse">Show Music Panel</button>
+                </div>
+            </div>
+
+            <!-- LOWER FULL WIDTH ROW: The Collapsible Panel -->
+            <div class="col-12">
+                <div class="collapse border-top pt-3 mt-2" id="musicCollapse">
+                    <div class="row g-3 align-items-stretch">
+
+                        <!-- Lower Left image -->
+                        <div class="col-md-5">
+                            <div class="music-box position-relative h-100 d-flex align-items-center justify-content-center border rounded-3 p-3 bg-light">
+                                <img id="collapse-character-img" src="https://i.postimg.cc/R0q2cPW0/image-2026-06-15-232616654.png" alt="companion" class="img-fluid pointer-cursor">
+                            </div>
+                        </div>
+
+                        <!-- lower right -->
+                        <div class="col-md-7">
+                            <div class="music-controls-box rounded-3 overflow-hidden shadow-sm bg-white p-3 h-100 border">
+                                <div class="music-panel-title mb-3 fw-bold">Music Addon</div>
+
+                                <!-- Internal side-by-side splits for embedded media engines -->
+                                <div class="row g-3">
+                                    <!-- YouTube -->
+                                    <div class="col-sm-6">
+                                        <div class="embed-wrapper rounded-3 overflow-hidden shadow-sm">
+                                            <iframe src="https://youtube.com" title="YouTube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;" allowfullscreen class="w-100" style="height: 140px;"></iframe>
+                                        </div>
+                                    </div>
+
+                                    <!-- Spotify -->
+                                    <div class="col-sm-6">
+                                        <div class="embed-wrapper rounded-3 overflow-hidden shadow-sm">
+                                            <iframe src="https://spotify.com" width="100%" height="140" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
