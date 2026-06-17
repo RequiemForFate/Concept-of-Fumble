@@ -168,4 +168,4 @@ function toggleMusicButtonText() {
 
 // data ui sync + execution?
 updateDisplay();
-updateStatusUI;
+updateStatusUI();
