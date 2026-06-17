@@ -47,6 +47,11 @@
                         <button class="btn btn-outline-secondary" id="pause-btn" onclick="pauseTimer()">Pause Timer</button>
                         <button class="btn btn-outline-danger" id="stop-btn">Stop Timer</button>
                     </div>
+                    <div class="form-check form-switch mt-2">
+                        <input class="form-check-input" type="checkbox" id="poke-dialogue-toggle">
+                        <label class="form-check-label small" for="poke-dialogue-toggle">Use special dialogue while poking</label>
+                    </div>
+                    <div class="small text-muted mt-1" id="poke-dialogue-mode-label">Poke dialogue mode: normal</div>
                 </form>
 
                 <!-- Trigger Toggle Button -->
@@ -113,7 +118,12 @@
         const dialouge_tier = {
             level1: ["Let's get to work.", "Focus.", "Hmph."],
             level3: ["Good job.", "See? I knew you can do it.", "I trust that you are following along?"],
-            level5: ["You are catching up well.", "Well Done.", "You are improving well."]
+            level5: ["You are catching up well.", "Well Done.", "You are improving well."],
+            poke: {
+                level1: ["Ouch! Stop that!", "Hey! That tickles.", "Why are you poking me?"],
+                level3: ["Okay, that's enough.", "Seriously? Don't poke me.", "Fine, I forgive you... this time."],
+                level5: ["I know you are trying to get my attention.", "Hmph, you better study harder.", "I won't fall for that again."]
+            }
         };
 
         // xp bar
@@ -132,6 +142,7 @@
         const characterImg = document.getElementById('character-img');
         const bubble = document.getElementById('speech-bubble');
         const achievementBox = document.getElementById('achievement-box');
+        const pokeDialogueToggle = document.getElementById('poke-dialogue-toggle');
 
         function updateTime() {
             const minutes = Math.floor(timeLeft / 60);
@@ -215,17 +226,24 @@
             startTimer();
         }
 
+        function getPokeDialogue() {
+            const useSpecial = pokeDialogueToggle && pokeDialogueToggle.checked;
+            if (useSpecial) {
+                if (affection_level >= 5) return dialouge_tier.poke.level5;
+                if (affection_level >= 3) return dialouge_tier.poke.level3;
+                return dialouge_tier.poke.level1;
+            }
+
+            if (affection_level >= 5) return dialouge_tier.level5;
+            if (affection_level >= 3) return dialouge_tier.level3;
+            return dialouge_tier.level1;
+        }
+
         function pokeCharacter() {
             if (isPoked) return;
             isPoked = true;
 
-            let dynamicPhrases = dialouge_tier.level1;
-            if (affection_level >= 5) {
-                dynamicPhrases = dialouge_tier.level5;
-            } else if (affection_level >= 3) {
-                dynamicPhrases = dialouge_tier.level3;
-            }
-
+            const dynamicPhrases = getPokeDialogue();
             const randomIndex = Math.floor(Math.random() * dynamicPhrases.length);
             if (bubble) bubble.textContent = dynamicPhrases[randomIndex];
             if (bubble) bubble.classList.remove('hidden-bubble');
@@ -285,6 +303,16 @@
             if (toggleBtn) toggleBtn.addEventListener('click', toggleMusicButtonText);
             const stopBtn = document.getElementById('stop-btn');
             if (stopBtn) stopBtn.addEventListener('click', resetTimer);
+
+            // Update poke dialogue mode label when toggle changes
+            if (pokeDialogueToggle) {
+                pokeDialogueToggle.addEventListener('change', () => {
+                    const modeLabel = document.getElementById('poke-dialogue-mode-label');
+                    if (modeLabel) {
+                        modeLabel.textContent = pokeDialogueToggle.checked ? 'Poke dialogue mode: special' : 'Poke dialogue mode: normal';
+                    }
+                });
+            }
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
