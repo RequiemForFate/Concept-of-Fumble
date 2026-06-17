@@ -2,8 +2,6 @@
 #include <string>
 #include <iomanip>
 #include <vector>
-#include <algorithm>
-#include <limits>
 using namespace std;
 
 class booking {
@@ -60,9 +58,9 @@ public:
         } else {
             cout << "Customer Name: " << name << endl;
             cout << "Room Number: " << roomNumber << endl;
-            cout << "Room Price per Night: $" << price << endl;
+            cout << "Room Price per Night: $" << fixed << setprecision(2) << price << endl;
             cout << "Nights Stayed: " << nights << endl;
-            cout << "Total Price: $" << calculateTotalPrice() << endl;
+            cout << "Total Price: $" << fixed << setprecision(2) << calculateTotalPrice() << endl;
         }
         cout << "===========================================" << endl;
     }
@@ -71,7 +69,7 @@ public:
 class receipt: public booking{
     public:
     void displayReceipt(){
-    
+        displayBooking();
     }
 
 
