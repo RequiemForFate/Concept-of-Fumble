@@ -42,6 +42,12 @@
 
                 <!-- Timer Action Actions -->
                 <form class="form-container mb-3" onsubmit="event.preventDefault();">
+                    <div class="mb-3">
+                        <div class="input-group input-group-sm">
+                            <input id="session-duration" class="form-control" type="number" min="5" max="120" step="5" value="30">
+                            <span class="input-group-text">minutes</span>
+                        </div>
+                    </div>
                     <div class="btn-group">
                         <button class="btn btn-outline-primary" id="start-btn" onclick="startTimer()">Start Timer</button>
                         <button class="btn btn-outline-secondary" id="pause-btn" onclick="pauseTimer()">Pause Timer</button>
@@ -49,9 +55,8 @@
                     </div>
                     <div class="form-check form-switch mt-2">
                         <input class="form-check-input" type="checkbox" id="poke-dialogue-toggle">
-                        <label class="form-check-label small" for="poke-dialogue-toggle">Use special dialogue while poking</label>
+                        <label class="form-check-label small" for="poke-dialogue-toggle"><div class="small text-muted mt-1" id="poke-dialogue-mode-label">Poke dialogue mode: normal</div></label>
                     </div>
-                    <div class="small text-muted mt-1" id="poke-dialogue-mode-label">Poke dialogue mode: normal</div>
                 </form>
 
                 <!-- Trigger Toggle Button -->
@@ -106,7 +111,7 @@
 
     <script>
         // giving value to the time
-        const study_time = 25 * 60;
+        let study_time = 30 * 60;
         const break_time = 5 * 60;
 
         // for character sprite gif
@@ -143,6 +148,26 @@
         const bubble = document.getElementById('speech-bubble');
         const achievementBox = document.getElementById('achievement-box');
         const pokeDialogueToggle = document.getElementById('poke-dialogue-toggle');
+        let sessionDurationInput = null;
+
+        function applySessionDuration() {
+            if (!sessionDurationInput) {
+                sessionDurationInput = document.getElementById('session-duration');
+            }
+            if (!sessionDurationInput) return;
+            let minutes = parseInt(sessionDurationInput.value, 10);
+            if (!Number.isFinite(minutes) || minutes < 5) {
+                minutes = 5;
+            } else if (minutes > 120) {
+                minutes = 120;
+            }
+            sessionDurationInput.value = minutes;
+            study_time = minutes * 60;
+            if (isCurrentlyStudy && timerId === null) {
+                timeLeft = study_time;
+                updateDisplay();
+            }
+        }
 
         function updateTime() {
             const minutes = Math.floor(timeLeft / 60);
@@ -192,6 +217,7 @@
 
         function resetTimer() {
             pauseTimer();
+            applySessionDuration();
             isCurrentlyStudy = true;
             timeLeft = study_time;
             if (statusLabel) statusLabel.textContent = "Ready to study.";
@@ -296,6 +322,7 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
+            sessionDurationInput = document.getElementById('session-duration');
             updateDisplay();
             updateStatusUI();
             if (characterImg) characterImg.addEventListener('click', pokeCharacter);
@@ -304,7 +331,9 @@
             const stopBtn = document.getElementById('stop-btn');
             if (stopBtn) stopBtn.addEventListener('click', resetTimer);
 
-            // Update poke dialogue mode label when toggle changes
+            if (sessionDurationInput) {
+                sessionDurationInput.addEventListener('change', applySessionDuration);
+            }
             if (pokeDialogueToggle) {
                 pokeDialogueToggle.addEventListener('change', () => {
                     const modeLabel = document.getElementById('poke-dialogue-mode-label');

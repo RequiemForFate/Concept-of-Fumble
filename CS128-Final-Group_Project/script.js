@@ -75,8 +75,8 @@ function resetTimer() {
     pauseTimer();
     isCurrentlyStudy = true;
     timeLeft = study_time;
-    statusLabel, textContent = gif_study;
-    updateDisplay;
+    statusLabel.textContent = gif_study;
+    updateDisplay();
 }
 
 function switchMode() {
