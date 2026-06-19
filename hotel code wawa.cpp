@@ -202,7 +202,7 @@ int main(){
                     cout << endl;
                 }
 
-                cout << "=================================\n";
+                cout << "=================================" << endl;
                 break;
             case 7:
                 cout << "Exiting..." << endl;
