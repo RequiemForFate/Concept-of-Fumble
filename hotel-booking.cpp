@@ -5,54 +5,45 @@
 using namespace std;
 
 class booking {
-private: 
+private:
     string name;
     int roomNumber;
     double price;
     int nights;
-public:
 
+public:
     booking() : roomNumber(0), price(0.0), nights(0) {}
 
-    void bookRoom(){
+    void bookRoom() {
         cout << "================ INFO ==================" << endl;
         cout << "Enter customer name: ";
         getline(cin, name);
+
         cout << "Enter room number: ";
         cin >> roomNumber;
+
         cout << "Enter room price: ";
         cin >> price;
+
         cout << "Enter number of nights: ";
         cin >> nights;
         if (nights < 0) {
             nights = 0;
         }
+
+        cin.ignore();
         cout << "=======================================" << endl;
     }
 
-    bool cancelBooking(int roomToCancel){
-        if(name.empty()){
-            cout << "No booking found to cancel." << endl;
-            return false;
-        }
-        if(roomToCancel != roomNumber){
-            cout << "Room number does not match current booking." << endl;
-            cout << "Current booked room is " << roomNumber << "." << endl;
-            return false;
-        }
-        name = "";
-        roomNumber = 0;
-        price = 0.0;
-        nights = 0;
-        cout << "Booking for room " << roomToCancel << " cancelled." << endl;
-        return true;
+    int getRoomNumber() const {
+        return roomNumber;
     }
 
     double calculateTotalPrice() const {
         return price * nights;
     }
 
-    void displayBooking(){
+    void displayBooking() const {
         cout << "================ RECEIPT ==================" << endl;
         if(name.empty()){
             cout << "No booking found." << endl;
@@ -67,25 +58,17 @@ public:
     }
 };
 
-class receipt: public booking{
-    public:
-    
-
-
-
-
-};
-
 int main(){
-    booking myBooking;
+    vector<booking> myBooking;
+    vector<int> allRooms = {101, 102, 103, 104, 105};
 
     int choice;
     do {
         cout << "====== HOTEL BOOKING SYSTEM ======" << endl;
-        cout << "1. Book Room" << endl;
-        cout << "2. Cancel Booking" << endl;
-        cout << "3. Display Booking" << endl;
-        cout << "4. Calculate Total Price" << endl;
+        cout << "1. Add Room" << endl;
+        cout << "2. Book Room" << endl;
+        cout << "3. Cancel Booking" << endl;
+        cout << "4. Display Options" << endl;
         cout << "5. Exit" << endl;
         cout << "==================================" << endl;
         cout << "Enter your choice: ";
@@ -93,23 +76,137 @@ int main(){
         cin.ignore();
 
         switch(choice) {
-            case 1:
-                myBooking.bookRoom();
-                break;
-            case 2: {
-                int roomToCancel;
-                cout << "Enter room number to cancel: ";
-                cin >> roomToCancel;
-                myBooking.cancelBooking(roomToCancel);
+            case 1: {
+                int roomNumber;
+
+                cout << "Enter room number to add: ";
+                cin >> roomNumber;
+
+                bool exists = false;
+
+                for(int room : allRooms) {
+                    if(room == roomNumber) {
+                        exists = true;
+                        break;
+                    }
+                }
+
+                if(exists) {
+                    cout << "Room already exists.\n";
+                }
+                else {
+                    allRooms.push_back(roomNumber);
+                    cout << "Room added successfully.\n";
+                }
+
                 break;
             }
-            case 3:
-                myBooking.displayBooking();
+            case 2: {
+                booking newBooking;
+                newBooking.bookRoom();
+                bool roomExists = false;
+                for(int room : allRooms) {
+                    if(room == newBooking.getRoomNumber()) {
+                        roomExists = true;
+                        break;
+                    }
+                }
+                if(!roomExists) {
+                    cout << "Room does not exist.\n";
+                    break;
+                }
+
+                bool occupied = false;
+
+                for(int i = 0; i < myBooking.size(); i++) {
+                    if(myBooking[i].getRoomNumber() == newBooking.getRoomNumber()) {
+                        occupied = true;
+                        break;
+                    }
+                }
+
+                if(occupied) {
+                    cout << "Room is already occupied.\n";
+                }
+                else {
+                    myBooking.push_back(newBooking);
+                    cout << "Room booked successfully.\n";
+                }
+
                 break;
-            case 4:
-                cout << "Displaying total price for current booking:" << endl;
-                cout << "Total Price: $" << myBooking.calculateTotalPrice() << endl;
+            }
+
+                case 3: {
+                    int roomToCancel;
+                    bool found = false;
+                    cout << "Enter room number to cancel: ";
+                    cin >> roomToCancel;
+                    for(int i = 0; i < myBooking.size(); i++) {
+                        if(myBooking[i].getRoomNumber() == roomToCancel) {
+                            myBooking.erase(myBooking.begin() + i);
+                            cout << "Booking cancelled." << endl;
+                            found = true;
+                            break;
+                        }
+                    }
+                    if(!found) {
+                        cout << "Booking not found." << endl;
+                    }
+
+                    break;
+                }
+            case 4: {
+                int displayChoice;
+                do {
+                    cout << "========================================" << endl;
+                    cout << "1. Display All Bookings" << endl;
+                    cout << "2. Display Room Status" << endl;
+                    cout << "========================================" << endl;
+                    cout << "Enter your choice: ";
+                    cin >> displayChoice;
+                    cin.ignore();
+                    
+                    if(displayChoice == 1) {
+                        if(myBooking.empty()) {
+                            cout << "No bookings found." << endl;
+                        }
+                        else {
+                            for(int i = 0; i < myBooking.size(); i++) {
+                                myBooking[i].displayBooking();
+                            }
+                        }
+                    }
+                    else if(displayChoice == 2) {
+                        cout << "========== ROOM STATUS ==========" << endl;
+
+                        for(int room : allRooms) {
+                            bool occupied = false;
+
+                            for(int i = 0; i < myBooking.size(); i++) {
+                                if(myBooking[i].getRoomNumber() == room) {
+                                    occupied = true;
+                                    break;
+                                }
+                            }
+
+                            cout << "Room " << room << " : ";
+
+                            if(occupied)
+                                cout << "Occupied";
+                            else
+                                cout << "Available";
+
+                            cout << endl;
+                        }
+
+                        cout << "=================================" << endl;
+                    }
+                    else {
+                        cout << "Invalid choice. Please try again." << endl;
+                    }
+                } while(displayChoice < 1 || displayChoice > 2);
                 break;
+            }
             case 5:
                 cout << "Exiting..." << endl;
                 break;
@@ -117,11 +214,7 @@ int main(){
                 cout << "Invalid choice. Please try again." << endl;
         }
         cout << "" << endl;
-    } while(choice != 5);
-
-
+    } while(choice != 7);
 
     return 0;
-
-
 }
